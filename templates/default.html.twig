@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for company in companies %}
+        {% for typeId, markets in company.marketsByType %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="panel">
+                    <div class="panel-title">
+                        {{ company.name }} - {{ constant('App\\Entity\\CompanyMarket::TYPES')[typeId] }}
+
+                        <a class="btn btn-xs btn-warning" href="{{ url('company_update_prices', {'companyId': company.id, 'companyMarketType': typeId}) }}">
+                            Update Prices
+                        </a>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            {% for companyMarket in markets %}
+                                <li>
+                                    {{ companyMarket.market.name }} -
+                                    <span class="badge">{{ companyMarket.price }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

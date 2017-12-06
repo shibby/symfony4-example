@@ -1,0 +1,9 @@
+index:
+    path: /
+    methods: [GET]
+    defaults: { _controller: 'App\Controller\DefaultController::indexAction' }
+
+company_update_prices:
+    path: /company/{companyId}/update-prices/{companyMarketType}
+    defaults: { _controller: 'App\Controller\CompanyController::updatePricesAction' }
+    methods: [GET, POST]
