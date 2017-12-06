@@ -8,13 +8,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class CompanyVoter extends Voter
 {
-    const UPDATE_PRICE = 'updatePrice';
+    public const UPDATE_PRICE = 'updatePrice';
+    public const CREATE = 'create';
+    public const EDIT = 'edit';
 
     protected function supports($attribute, $subject)
     {
-        // replace with your own logic
-        // https://symfony.com/doc/current/security/voters.html
-        return \in_array($attribute, [self::UPDATE_PRICE], true)
+        return \in_array($attribute, [self::UPDATE_PRICE, self::EDIT], true)
             && $subject instanceof \App\Entity\Company;
     }
 
@@ -30,7 +30,6 @@ class CompanyVoter extends Voter
         switch ($attribute) {
             case 'updatePrice':
                 return true;
-                break;
         }
 
         return false;
