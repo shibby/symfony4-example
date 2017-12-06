@@ -12,11 +12,8 @@ cache:
     - $HOME/.composer
 
 env:
-  - SYMFONY_DEPRECATIONS_HELPER=weak
-  - SYMFONY_VERSION="3.4.*"
-  - DB=mysql
-  - DATABASE_DRIVER=pdo_mysql
-  - DATABASE_URL="mysql://root:root@127.0.0.1:3306/symfony"
+  - SYMFONY_DEPRECATIONS_HELPER=weak DATABASE_DRIVER="pdo_mysql" DATABASE_URL="mysql://root:root@127.0.0.1:3306/symfony"
+  - SYMFONY_DEPRECATIONS_HELPER=weak DATABASE_DRIVER="pdo_sqlite" DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 
 before_install:
 # Remove xdebug for performance issues
@@ -27,6 +24,7 @@ before_install:
 install:
 - cp .env.dist .env
 - composer install
+- php bin/console doctrine:database:create
 - php bin/console doctrine:schema:update --env=test --force
 - php bin/console doctrine:fixtures:load --env=test --no-interaction
 

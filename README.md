@@ -7,10 +7,6 @@
 Create environment config file
 
     cp .env.dist .env
-    
-Create database
-    
-     php bin/console doctrine:database:create
 
 Install php dependencies
 
@@ -19,6 +15,10 @@ Install php dependencies
 Install front-end dependencies
 
     yarn install
+    
+Create database
+    
+     php bin/console doctrine:database:create
     
 Update your database schema
     
