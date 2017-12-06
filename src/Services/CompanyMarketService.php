@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Entity\CompanyMarket;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CompanyMarketService
@@ -16,15 +17,19 @@ class CompanyMarketService
         $this->entityManager = $entityManager;
     }
 
-    public function updateCompanyMarketPrice(int $companyMarketId, float $price): void
+    public function getCompanyMarket(int $companyMarketId): ?CompanyMarket
     {
-        $this->entityManager->createQuery('UPDATE  \\App\\Entity\\CompanyMarket companyMarket SET 
-          companyMarket.price = :price, companyMarket.priceUpdatedAt = :priceUpdatedAt
-          WHERE companyMarket.id = :id
-          ')
-            ->setParameter('priceUpdatedAt', new \DateTime())
-            ->setParameter('id', $companyMarketId)
-            ->setParameter('price', $price)
-            ->execute();
+        return $this->entityManager->getRepository('App:CompanyMarket')
+            ->find($companyMarketId);
+    }
+
+    public function updateCompanyMarketPrice(CompanyMarket $companyMarket, float $price): void
+    {
+        if ($companyMarket->getPrice() !== $price) {
+            $companyMarket->setPrice($price)
+                ->setPriceUpdatedAt(new \DateTime());
+            $this->entityManager->persist($companyMarket);
+            $this->entityManager->flush();
+        }
     }
 }

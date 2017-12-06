@@ -42,9 +42,13 @@ class CompanyController extends Controller
             $prices = (array) $request->request->get('prices');
 
             foreach ($prices as $companyMarketId => $price) {
-                //todo: validate companyMarketId
-                //todo: vote companyMarketId
-                $this->companyMarketService->updateCompanyMarketPrice($companyMarketId, (float) $price);
+                //todo: validate companyMarketIds are correct
+                $companyMarket = $this->companyMarketService->getCompanyMarket($companyMarketId);
+                if ($companyMarket) {
+                    //todo: vote is user allowed to update companyMarket
+                    $this->companyMarketService->updateCompanyMarketPrice($companyMarket, (float) $price);
+                }
+
                 //todo: use transactions
             }
 
