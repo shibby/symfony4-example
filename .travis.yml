@@ -12,7 +12,7 @@ cache:
     - $HOME/.composer
 
 env:
-  - SYMFONY_DEPRECATIONS_HELPER=weak DATABASE_DRIVER="pdo_mysql" DATABASE_URL="mysql://root:root@127.0.0.1:3306/symfony"
+  - SYMFONY_DEPRECATIONS_HELPER=weak DATABASE_DRIVER="pdo_mysql" DATABASE_URL="mysql://root@127.0.0.1:3306/symfony"
   - SYMFONY_DEPRECATIONS_HELPER=weak DATABASE_DRIVER="pdo_sqlite" DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 
 before_install:
