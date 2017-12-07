@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StockRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="stock_unique",columns={"company_id", "market_id", "type"})})
  */
 class Stock
 {
