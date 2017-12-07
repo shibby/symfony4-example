@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Company;
+use App\Entity\CompanyMarket;
+use App\Form\CompanyType;
 use App\Security\Voter\CompanyVoter;
 use App\Services\CompanyMarketService;
 use App\Services\CompanyService;
+use App\Services\MarketService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,14 +22,22 @@ class CompanyController extends Controller
      * @var CompanyMarketService
      */
     private $companyMarketService;
+    /**
+     * @var MarketService
+     */
+    private $marketService;
 
-    public function __construct(CompanyService $companyService, CompanyMarketService $companyMarketService)
-    {
+    public function __construct(
+        CompanyService $companyService,
+        CompanyMarketService $companyMarketService,
+        MarketService $marketService
+    ) {
         $this->companyService = $companyService;
         $this->companyMarketService = $companyMarketService;
+        $this->marketService = $marketService;
     }
 
-    public function updatePricesAction(Request $request, int $companyId, int $companyMarketType)
+    public function updatePricesAction(Request $request, int $companyId, ?int $companyMarketType)
     {
         $company = $this->companyService->getCompany($companyId);
         if (!$company) {
@@ -66,6 +78,35 @@ class CompanyController extends Controller
             'company' => $company,
             'companyMarketType' => $companyMarketType,
             'companyMarkets' => $companyMarkets,
+        ]);
+    }
+
+    public function createCompanyAction(Request $request)
+    {
+        $markets = $this->marketService->getMarkets();
+
+        $form = $this->createForm(CompanyType::class, null, [
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+
+            $company = $this->companyService->createCompany($data['name']);
+
+            $this->companyMarketService->addStocks($company, $data['stocks']);
+
+            return $this->redirectToRoute('company_update_prices', [
+                'companyId' => $company->getId(),
+                'companyMarketType' => null,
+            ]);
+        }
+
+        return $this->render('company/create.html.twig', [
+            'form' => $form->createView(),
+            'markets' => $markets,
+            'stockTypes' => CompanyMarket::TYPES,
         ]);
     }
 }

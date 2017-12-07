@@ -33,6 +33,10 @@ class CompanyUpdatePriceTest extends WebTestCase
             ]);
             $this->assertSame(302, $client->getResponse()->getStatusCode());
             //TODO: in this test,keys 1,2,3 couldn't be belongs to company#1.
+
+            // this endpoint can be loaded without passing stocktype value to url
+            $crawler = $client->request('GET', '/company/'.$company->getId().'/update-prices');
+            $this->assertSame(200, $client->getResponse()->getStatusCode());
         }
     }
 }

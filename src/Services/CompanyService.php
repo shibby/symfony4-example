@@ -23,6 +23,17 @@ class CompanyService
             ->find($id);
     }
 
+    public function createCompany($name): Company
+    {
+        $company = new Company();
+        $company->setName($name);
+
+        $this->entityManager->persist($company);
+        $this->entityManager->flush();
+
+        return $company;
+    }
+
     public function getCompanyMarkets(Company $company, $type = null): ?array
     {
         return $this->entityManager->getRepository('App:CompanyMarket')

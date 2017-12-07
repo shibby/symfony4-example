@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Create Company</h1>
+
+    {{ form_start(form) }}
+    {#{{ form_widget(form._token) }}#}
+    <div class="form-group">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}
+    </div>
+
+    {% for market in markets %}
+        <div class="form-group">
+            <label class="control-label">
+                {{ market.name }}
+            </label>
+            <div>
+            {% for type, value in stockTypes %}
+                <input type="checkbox" value="{{ type }}" name="company[stocks][{{ market.id }}][]"
+                    {#{{ (app.request.request['company']['stocks'][market.id].contains(type)) ? 'checked'}}#}
+                > {{ value }}
+            {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {{ form_widget(form.save) }}
+    {{ form_end(form, {'render_rest': false}) }}
+{% endblock %}
