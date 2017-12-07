@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CompanyMarketRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\StockRepository")
  */
-class CompanyMarket
+class Stock
 {
     public const TYPES = [
         1 => 'Common',
@@ -66,7 +66,7 @@ class CompanyMarket
     /**
      * @param mixed $company
      *
-     * @return CompanyMarket
+     * @return Stock
      */
     public function setCompany($company): self
     {
@@ -86,7 +86,7 @@ class CompanyMarket
     /**
      * @param mixed $market
      *
-     * @return CompanyMarket
+     * @return Stock
      */
     public function setMarket($market)
     {
@@ -106,7 +106,7 @@ class CompanyMarket
     /**
      * @param mixed $type
      *
-     * @return CompanyMarket
+     * @return Stock
      */
     public function setType($type): self
     {
@@ -126,7 +126,7 @@ class CompanyMarket
     /**
      * @param mixed $price
      *
-     * @return CompanyMarket
+     * @return Stock
      */
     public function setPrice($price): self
     {
@@ -146,7 +146,7 @@ class CompanyMarket
     /**
      * @param \DateTimeInterface $priceUpdatedAt
      *
-     * @return CompanyMarket
+     * @return Stock
      */
     public function setPriceUpdatedAt(\DateTimeInterface $priceUpdatedAt): self
     {

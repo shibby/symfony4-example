@@ -8,13 +8,13 @@
         </div>
     {% endif %}
 
-    <form method="POST" href="{{ url('company_update_prices', {companyId: company.id, companyMarketType: companyMarketType}) }}">
-        {% for companyMarket in companyMarkets %}
+    <form method="POST" href="{{ url('company_update_prices', {companyId: company.id, stockType: stockType}) }}">
+        {% for stock in stocks %}
             <div class="form-group">
-                <label>{{ companyMarket.market.name }} - {{ constant('App\\Entity\\CompanyMarket::TYPES')[companyMarket.type] }}
+                <label>{{ stock.market.name }} - {{ constant('App\\Entity\\Stock::TYPES')[stock.type] }}
                 <input type="number" step="0.01"
                        class="form-control"
-                       name="prices[{{ companyMarket.id }}]" value="{{ companyMarket.price }}">
+                       name="prices[{{ stock.id }}]" value="{{ stock.price }}">
                 </label>
             </div>
         {% endfor %}

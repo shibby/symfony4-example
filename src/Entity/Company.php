@@ -24,32 +24,32 @@ class Company
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanyMarket", mappedBy="company")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="company")
      */
-    private $markets;
+    private $stocks;
 
     /**
      * @var array
      */
-    private $marketsByType;
+    private $stocksByType;
 
     /**
      * @return array
      */
-    public function getMarketsByType(): ?array
+    public function getStocksByType(): ?array
     {
-        return $this->marketsByType;
+        return $this->stocksByType;
     }
 
     /**
      * @param int             $type
-     * @param ArrayCollection $markets
+     * @param ArrayCollection $stocks
      *
      * @return Company
      */
-    public function setMarketsByType(int $type, ArrayCollection $markets): self
+    public function setStocksByType(int $type, ArrayCollection $stocks): self
     {
-        $this->marketsByType[$type] = $markets;
+        $this->stocksByType[$type] = $stocks;
 
         return $this;
     }
@@ -85,19 +85,19 @@ class Company
     /**
      * @return Collection|null
      */
-    public function getMarkets(): ?Collection
+    public function getStocks(): ?Collection
     {
-        return $this->markets;
+        return $this->stocks;
     }
 
     /**
-     * @param CompanyMarket[] $companyMarkets
+     * @param Stock[] $stocks
      *
      * @return Company
      */
-    public function setMarkets($companyMarkets): self
+    public function setStocks($stocks): self
     {
-        $this->markets = $companyMarkets;
+        $this->stocks = $stocks;
 
         return $this;
     }

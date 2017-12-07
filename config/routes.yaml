@@ -4,8 +4,8 @@ index:
     defaults: { _controller: 'App\Controller\DefaultController::indexAction' }
 
 company_update_prices:
-    path: /company/{companyId}/update-prices/{companyMarketType?}
-    defaults: { _controller: 'App\Controller\CompanyController::updatePricesAction' }
+    path: /company/{companyId}/update-prices/{stockType}
+    defaults: { _controller: 'App\Controller\CompanyController::updatePricesAction', stockType: null }
     methods: [GET, POST]
 
 company_create:

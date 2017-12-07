@@ -3,10 +3,10 @@
 namespace App\Services;
 
 use App\Entity\Company;
-use App\Entity\CompanyMarket;
+use App\Entity\Stock;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CompanyMarketService
+class StockService
 {
     /**
      * @var EntityManagerInterface
@@ -18,18 +18,18 @@ class CompanyMarketService
         $this->entityManager = $entityManager;
     }
 
-    public function getCompanyMarket(int $companyMarketId): ?CompanyMarket
+    public function getStock(int $stockId): ?Stock
     {
-        return $this->entityManager->getRepository('App:CompanyMarket')
-            ->find($companyMarketId);
+        return $this->entityManager->getRepository('App:Stock')
+            ->find($stockId);
     }
 
-    public function updateCompanyMarketPrice(CompanyMarket $companyMarket, float $price): void
+    public function updateStockPrice(Stock $stock, float $price): void
     {
-        if ($companyMarket->getPrice() !== $price) {
-            $companyMarket->setPrice($price)
+        if ($stock->getPrice() !== $price) {
+            $stock->setPrice($price)
                 ->setPriceUpdatedAt(new \DateTime());
-            $this->entityManager->persist($companyMarket);
+            $this->entityManager->persist($stock);
             $this->entityManager->flush();
         }
     }
@@ -45,11 +45,11 @@ class CompanyMarketService
                 ->find($marketId);
             if ($market) {
                 foreach ($types as $type) {
-                    $companyMarket = new CompanyMarket();
-                    $companyMarket->setMarket($market)
+                    $stock = new Stock();
+                    $stock->setMarket($market)
                         ->setCompany($company)
                         ->setType($type);
-                    $this->entityManager->persist($companyMarket);
+                    $this->entityManager->persist($stock);
                 }
             }
         }

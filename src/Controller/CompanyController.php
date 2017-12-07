@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Company;
-use App\Entity\CompanyMarket;
+use App\Entity\Stock;
 use App\Form\CompanyType;
 use App\Security\Voter\CompanyVoter;
-use App\Services\CompanyMarketService;
+use App\Services\StockService;
 use App\Services\CompanyService;
 use App\Services\MarketService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -18,10 +18,12 @@ class CompanyController extends Controller
      * @var CompanyService
      */
     private $companyService;
+
     /**
-     * @var CompanyMarketService
+     * @var StockService
      */
-    private $companyMarketService;
+    private $stockService;
+
     /**
      * @var MarketService
      */
@@ -29,15 +31,15 @@ class CompanyController extends Controller
 
     public function __construct(
         CompanyService $companyService,
-        CompanyMarketService $companyMarketService,
+        StockService $stockService,
         MarketService $marketService
     ) {
         $this->companyService = $companyService;
-        $this->companyMarketService = $companyMarketService;
+        $this->stockService = $stockService;
         $this->marketService = $marketService;
     }
 
-    public function updatePricesAction(Request $request, int $companyId, ?int $companyMarketType)
+    public function updatePricesAction(Request $request, int $companyId, ?int $stockType)
     {
         $company = $this->companyService->getCompany($companyId);
         if (!$company) {
@@ -48,17 +50,17 @@ class CompanyController extends Controller
         */
         //$this->denyAccessUnlessGranted(CompanyVoter::UPDATE_PRICE, $company);
 
-        $companyMarkets = $this->companyService->getCompanyMarkets($company, $companyMarketType);
+        $stocks = $this->companyService->getStocks($company, $stockType);
 
         if ($request->isMethod('post')) {
             $prices = (array) $request->request->get('prices');
 
-            foreach ($prices as $companyMarketId => $price) {
-                //todo: validate companyMarketIds are correct
-                $companyMarket = $this->companyMarketService->getCompanyMarket($companyMarketId);
-                if ($companyMarket) {
-                    //todo: vote is user allowed to update companyMarket
-                    $this->companyMarketService->updateCompanyMarketPrice($companyMarket, (float) $price);
+            foreach ($prices as $stockId => $price) {
+                //todo: validate stockIds are correct
+                $stock = $this->stockService->getStock($stockId);
+                if ($stock) {
+                    //todo: vote is user allowed to update stock
+                    $this->stockService->updateStockPrice($stock, (float) $price);
                 }
 
                 //todo: use transactions
@@ -67,7 +69,7 @@ class CompanyController extends Controller
             //$this->addFlash('success', 'Prices updated');
 
             return $this->redirectToRoute('company_update_prices', [
-                'companyMarketType' => $companyMarketType,
+                'stockType' => $stockType,
                 'companyId' => $companyId,
                 'updated' => 1, //since sessions are disabled, i'm using query string to give message. old good days.
             ]);
@@ -76,8 +78,8 @@ class CompanyController extends Controller
         // replace this line with your own code!
         return $this->render('company/update_prices.html.twig', [
             'company' => $company,
-            'companyMarketType' => $companyMarketType,
-            'companyMarkets' => $companyMarkets,
+            'stockType' => $stockType,
+            'stocks' => $stocks,
         ]);
     }
 
@@ -95,18 +97,18 @@ class CompanyController extends Controller
 
             $company = $this->companyService->createCompany($data['name']);
 
-            $this->companyMarketService->addStocks($company, $data['stocks']);
+            $this->stockService->addStocks($company, $data['stocks']);
 
             return $this->redirectToRoute('company_update_prices', [
                 'companyId' => $company->getId(),
-                'companyMarketType' => null,
+                'stockType' => null,
             ]);
         }
 
         return $this->render('company/create.html.twig', [
             'form' => $form->createView(),
             'markets' => $markets,
-            'stockTypes' => CompanyMarket::TYPES,
+            'stockTypes' => Stock::TYPES,
         ]);
     }
 }

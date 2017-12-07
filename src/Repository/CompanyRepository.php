@@ -13,16 +13,16 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    public function findCompaniesWithMarkets(): ?array
+    public function findCompaniesWithStocks(): ?array
     {
         return $this->createQueryBuilder('company')
             ->select([
                 'company',
-                'companyMarkets',
+                'stocks',
                 'market',
             ])
-            ->leftJoin('company.markets', 'companyMarkets')
-            ->leftJoin('companyMarkets.market', 'market')
+            ->leftJoin('company.stocks', 'stocks')
+            ->leftJoin('stocks.market', 'market')
             ->getQuery()
             ->getResult();
     }

@@ -34,9 +34,9 @@ class CompanyService
         return $company;
     }
 
-    public function getCompanyMarkets(Company $company, $type = null): ?array
+    public function getStocks(Company $company, $type = null): ?array
     {
-        return $this->entityManager->getRepository('App:CompanyMarket')
-            ->findCompanyMarkets($company, $type);
+        return $this->entityManager->getRepository('App:Stock')
+            ->findStocks($company, $type);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Company;
-use App\Entity\CompanyMarket;
+use App\Entity\Stock;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -22,16 +22,16 @@ class HomepageService
     public function getCompanies()
     {
         $companies = $this->entityManager->getRepository('App:Company')
-            ->findCompaniesWithMarkets();
+            ->findCompaniesWithStocks();
 
         array_walk($companies, function (&$company) {
-            foreach (CompanyMarket::TYPES as $type => $value) {
-                /** @var ArrayCollection $companyMarkets */
-                $companyMarkets = $company->getMarkets()->filter(function ($q) use ($type) {
+            foreach (Stock::TYPES as $type => $value) {
+                /** @var ArrayCollection $stocks */
+                $stocks = $company->getStocks()->filter(function ($q) use ($type) {
                     return $type === $q->getType();
                 });
-                if ($companyMarkets->count() > 0) {
-                    $company->setMarketsByType($type, $companyMarkets);
+                if ($stocks->count() > 0) {
+                    $company->setStocksByType($type, $stocks);
                 }
             }
         });

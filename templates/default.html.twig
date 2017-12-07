@@ -2,22 +2,22 @@
 
 {% block body %}
     {% for company in companies %}
-        {% for typeId, markets in company.marketsByType %}
+        {% for typeId, markets in company.stocksByType %}
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="panel">
                     <div class="panel-title">
-                        {{ company.name }} - {{ constant('App\\Entity\\CompanyMarket::TYPES')[typeId] }}
+                        {{ company.name }} - {{ constant('App\\Entity\\Stock::TYPES')[typeId] }}
 
-                        <a class="btn btn-xs btn-warning" href="{{ url('company_update_prices', {'companyId': company.id, 'companyMarketType': typeId}) }}">
+                        <a class="btn btn-xs btn-warning" href="{{ url('company_update_prices', {'companyId': company.id, 'stockType': typeId}) }}">
                             Update Prices
                         </a>
                     </div>
                     <div class="panel-body">
                         <ul>
-                            {% for companyMarket in markets %}
+                            {% for stock in markets %}
                                 <li>
-                                    {{ companyMarket.market.name }} -
-                                    <span class="badge">{{ companyMarket.price }}</span>
+                                    {{ stock.market.name }} -
+                                    <span class="badge">{{ stock.price }}</span>
                                 </li>
                             {% endfor %}
                         </ul>

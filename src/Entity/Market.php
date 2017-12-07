@@ -23,7 +23,7 @@ class Market
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CompanyMarket", mappedBy="market")
+     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="market")
      */
     private $companies;
 
@@ -64,13 +64,13 @@ class Market
     }
 
     /**
-     * @param CompanyMarket $companyMarket
+     * @param Stock $stock
      *
      * @return $this
      */
-    public function setCompanies(CompanyMarket $companyMarket): self
+    public function setCompanies(Stock $stock): self
     {
-        $this->companies = $companyMarket;
+        $this->companies = $stock;
 
         return $this;
     }
