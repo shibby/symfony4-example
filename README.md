@@ -1,5 +1,5 @@
-![Test Status](https://travis-ci.org/shibby/symfony4-example.svg?branch=master)
-![Code Style](https://styleci.io/repos/113306206/shield)
+[![Build Status](https://travis-ci.org/shibby/symfony4-example.svg?branch=master)](https://travis-ci.org/shibby/symfony4-example)
+[![Code Style](https://styleci.io/repos/113306206/shield)](https://styleci.io/repos/113306206)
 
 
 ## Installation
